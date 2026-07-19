@@ -12,7 +12,7 @@ def compute_simple_returns(prices: pd.DataFrame) -> pd.DataFrame:
     -------
     returns: DataFrame of daily simple returns
     """
-
+    # computes fractional change between current and prev element
     returns = prices.pct_change()
     returns = returns.dropna()
 
