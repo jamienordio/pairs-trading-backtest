@@ -99,23 +99,23 @@ pairs-trading-backtest/
 
 ## Notebooks
 
-### 01 — Data Exploration
+### 01 Data Exploration
 
 Loads ETF price data, computes daily returns, and ranks ETF pairs by return correlation.
 
-### 02 — Single Pair Strategy
+### 02 Single Pair Strategy
 
 Builds the pairs-trading strategy for one ETF pair. This notebook introduces the hedge ratio, spread, z-score, position rules, strategy returns, trade log, and performance metrics.
 
-### 03 — Parameter Sensitivity
+### 03 Sensitivity Analysis
 
-Tests how the strategy changes under different z-score windows and entry thresholds.
+Tests how the strategy changes under different model parameters, such as z-score windows and entry thresholds.
 
-### 04 — Out-of-Sample Validation
+### 04 Out-of-Sample Validation
 
 Evaluates selected pairs using a fixed train/test split. Candidate pairs are selected using training-period information only, then evaluated out of sample.
 
-### 05 — Mean-Reversion Diagnostics
+### 05 Mean-Reversion Diagnostics
 
 Tests whether selected spreads show statistical evidence of mean reversion. Diagnostics include:
 
@@ -126,7 +126,7 @@ Tests whether selected spreads show statistical evidence of mean reversion. Diag
 
 The results show that selected spreads generally have evidence of mean reversion, but mean-reversion diagnostics alone do not perfectly predict out-of-sample profitability.
 
-### 06 — Half-Life Exit Validation
+### 06 Half-Life Exit Validation
 
 Tests whether an OU half-life-based maximum holding period improves performance.
 
@@ -134,13 +134,19 @@ The half-life exit rule did not materially change the results. The original z-sc
 
 This suggests that the OU half-life is more useful as a diagnostic than as an active exit rule in this version of the strategy.
 
-### 07 — Walk-Forward Validation
+### 07 Walk-Forward Validation
 
 Evaluates the strategy using expanding-window walk-forward validation.
 
 Each fold selects pairs using only past data, then evaluates the selected pairs over the next calendar year.
 
 The walk-forward results show positive average Sharpe in six out of seven test years, with 2020 as the main failure case. This suggests that the strategy has some out-of-sample structure, but the edge is modest and regime-dependent.
+
+## Results
+
+### Fixed Train/Test Performance
+
+
 
 ## Key Findings
 
