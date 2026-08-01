@@ -10,17 +10,17 @@ Pairs trading is a market-neutral strategy based on the idea that two related as
 
 For each candidate pair, I estimate a rolling hedge ratio using price-level OLS regression:
 
-[
-Y_t = \alpha_t + \beta_t X_t + \varepsilon_t.
-]
+$$Y_t = \alpha_t + \beta_t X_t + \varepsilon_t.$$
 
 The residual spread is then:
 
-[
-S_t = Y_t - \alpha_t - \beta_t X_t.
-]
+$$S_t = Y_t - \alpha_t - \beta_t X_t.$$
 
-A rolling z-score is computed from the spread. The strategy enters trades when the spread is far from its recent mean and exits when the spread reverts close to normal levels.
+A rolling z-score is computed from the spread:
+
+$$z_t = \frac{S_t - \bar{S}_{w}}{\sigma_w}.$$
+
+Where $w$ denotes the window. The strategy enters trades when the spread is far from its recent mean and exits when the spread reverts close to normal levels.
 
 ## Data
 
