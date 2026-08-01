@@ -219,29 +219,45 @@ def generate_spread_positions(
     zscore: pd.Series,
     entry_threshold: float = 2.0,
     exit_threshold: float = 0.5,
+    max_holding_days: int | None = None,
 ) -> pd.Series:
     """
-    Generate spread position from z-scores.
+    Generate long/short spread positions from z-score thresholds.
 
-    Position convention:
-     1 = long spread
-    -1 = short spread
-     0 = flat
+    position =  1 means long spread
+    position = -1 means short spread
+    position =  0 means flat
     """
-
     positions = []
+
     current_position = 0
+    days_in_position = 0
 
     for z in zscore:
         if current_position == 0:
+            days_in_position = 0
+
             if z < -entry_threshold:
                 current_position = 1
+                days_in_position = 1
+
             elif z > entry_threshold:
                 current_position = -1
+                days_in_position = 1
 
         else:
-            if abs(z) < exit_threshold:
+            days_in_position += 1
+
+            exit_by_zscore = abs(z) < exit_threshold
+
+            exit_by_time = (
+                max_holding_days is not None
+                and days_in_position >= max_holding_days
+            )
+
+            if exit_by_zscore or exit_by_time:
                 current_position = 0
+                days_in_position = 0
 
         positions.append(current_position)
 
@@ -357,6 +373,7 @@ def run_dynamic_beta_backtest(
     transaction_cost_bps=5.0,
     evaluation_start=None,
     evaluation_end=None,
+    max_holding_days: int | None = None,
 ):
     rolling_spread_df = compute_rolling_spread(
         prices=prices,
@@ -378,6 +395,7 @@ def run_dynamic_beta_backtest(
         zscore=rolling_zscore,
         entry_threshold=entry_threshold,
         exit_threshold=exit_threshold,
+        max_holding_days=max_holding_days,
     )
 
     strategy_returns = compute_strategy_returns_dynamic_beta(
@@ -389,21 +407,25 @@ def run_dynamic_beta_backtest(
         transaction_cost_bps=transaction_cost_bps,
     )
 
+    # Filter returns to evaluation period
     if evaluation_start is not None:
         strategy_returns = strategy_returns.loc[evaluation_start:]
-
+    
     if evaluation_end is not None:
         strategy_returns = strategy_returns.loc[:evaluation_end]
-
+    
+    # Align positions to the same period as strategy returns
     positions_eval = positions.reindex(strategy_returns.index).ffill().fillna(0)
-
+    
+    # Compute metrics on filtered returns
     metrics = compute_performance_metrics(strategy_returns)
-
+    
+    # Build trade log using filtered positions
     trade_log = build_trade_log(
-        positions=positions,
+        positions=positions_eval,
         strategy_returns=strategy_returns,
     )
-
+    
     metrics["n_trades"] = len(trade_log)
     metrics["win_rate"] = (
         (trade_log["trade_return"] > 0).mean()
@@ -528,3 +550,46 @@ def build_trade_log(
         ["entry_date", "exit_date", "direction", "holding_days", "trade_return"]
         ]
     return trade_log
+
+def estimate_ou_parameters(spread: pd.Series) -> dict:
+    """
+    Estimate OU-style mean-reversion parameters using the discrete AR(1) model:
+
+        S_{t+1} = a + b S_t + eps_t
+
+    For daily data:
+        kappa = -log(b)
+        half_life = log(2) / kappa
+    """
+    spread = spread.dropna()
+
+    s_t = spread.shift(1).dropna()
+    s_next = spread.loc[s_t.index]
+
+    X = sm.add_constant(s_t)
+    model = sm.OLS(s_next, X).fit()
+
+    a = model.params.iloc[0]
+    b = model.params.iloc[1]
+
+    residuals = model.resid
+    sigma_resid = residuals.std()
+
+    if 0 < b < 1:
+        kappa = -np.log(b)
+        theta = a / (1 - b)
+        half_life = np.log(2) / kappa
+    else:
+        kappa = np.nan
+        theta = np.nan
+        half_life = np.nan
+
+    return {
+        "ar1_intercept": a,
+        "ar1_slope": b,
+        "ou_kappa": kappa,
+        "ou_theta": theta,
+        "ou_half_life": half_life,
+        "ou_sigma_resid": sigma_resid,
+        "ou_r_squared": model.rsquared,
+    }
