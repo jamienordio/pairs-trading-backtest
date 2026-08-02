@@ -160,7 +160,7 @@ Third, the mean-reversion diagnostics support the basic modeling assumption, but
 
 Fourth, the half-life-based exit rule does not materially improve the strategy. The original z-score exit rule usually closes trades before the half-life constraint becomes relevant.
 
-Finally, walk-forward validation gives a more realistic view of performance. The strategy is positive in most folds, but the average performance is modest and the 2020 fold shows that the strategy can break down during stressed regimes.
+Finally, walk-forward validation gives a more realistic view of performance. The strategy is positive in most folds, but the average performance is modest and the 2020 fold shows that the strategy can break down during stressed and volatile time periods.
 
 ## Limitations
 
