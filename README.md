@@ -68,8 +68,8 @@ Z-score window:  120 trading days
 Transaction cost: 5 basis points
 ```
 
-A long-spread position means long (Y) and short (\beta X).
-A short-spread position means short (Y) and long (\beta X).
+A long-spread position means long $Y$ and short $\beta_t X$.
+A short-spread position means short $Y$ and long $\beta_t X$.
 
 ## Repository Structure
 
