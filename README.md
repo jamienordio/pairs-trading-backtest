@@ -159,6 +159,29 @@ I developed the strategy first using the full data set, then progressively elimi
 
 The dynamic-beta rolling z-score strategy slightly outperforms the static-beta version. It has a higher total return, higher Sharpe ratio, lower annualized volatility, and smaller maximum drawdown. However, the improvement is modest, suggesting that allowing the hedge ratio to vary through time helps, but does not dramatically change the strategy's performance.
 
+### Out-of-Sample Validation
+Training period:
+```text
+2015-01-01 to 2022-12-31
+```
+Used to select for pairs, direction, and strategy settings.
+
+Testing period:
+```text
+2023-01-01 to 2026-01-01
+```
+Period to trade selected pairs and to keep updating beta and z-score using rolling historical windows. Below is the out-of-sample versus training period results.
+
+| Pair        | Train Correlation | Train Total Return | OOS Total Return | Train Sharpe | OOS Sharpe | Sharpe Change | Train Trades | OOS Trades |
+| ----------- | ----------------: | -----------------: | ---------------: | -----------: | ---------: | ------------: | -----------: | ---------: |
+| Y=SPY/X=XLK |            0.9381 |              2.79% |           10.38% |       0.1596 |     1.3097 |        1.1501 |           21 |         13 |
+| Y=XLK/X=QQQ |            0.9777 |              3.90% |            4.02% |       0.3351 |     0.6500 |        0.3149 |           25 |         12 |
+| Y=QQQ/X=XLK |            0.9777 |              3.46% |            2.50% |       0.2986 |     0.4711 |        0.1725 |           24 |         11 |
+| Y=XLI/X=XLF |            0.8855 |              3.05% |            4.73% |       0.1526 |     0.4373 |        0.2847 |           20 |         11 |
+| Y=SPY/X=XLI |            0.8996 |              8.25% |           -3.29% |       0.3853 |    -0.3915 |       -0.7768 |           26 |          6 |
+
+![sharpe ratio oss top 5](figures/train_versus_oos_sharpe_top5.jpg)
+
 ## Key Findings
 
 The project produced several important findings.
