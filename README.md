@@ -146,9 +146,18 @@ The walk-forward results show positive average Sharpe in six out of seven test y
 
 ### Dynamic vs. Static Hedge Ratio $\beta$
 
-I developed the strategy first using the full data set, then progressively eliminated look-ahead bias by implementing rolling statistics and calculations. Below is a comparison of the strategy with a fixed hedge ratio $\beta$ versus with a dynamic hedge ratio $\beta_t$.
+I developed the strategy first using the full data set, then progressively eliminated look-ahead bias by implementing rolling computations. Below is a comparison of the strategy with a fixed hedge ratio $\beta$ versus with a dynamic hedge ratio $\beta_t$.
 
-![static versus dynamic hedge ratio](figures/fixed_vs_dynamic_beta_rollingzscore_XLK_QQQ.jpg)
+![static versus dynamic hedge ratio](figures/dynamic_vs_static_beta_rollingzscore_XLK_QQQ.jpg)
+
+![static versus dynamic hedge ratio growth](figures/dynamicbeta_vs_static_growth_XLK_QQQ.jpg)
+
+| Strategy | Total Return | Annualized Return | Annualized Volatility | Sharpe Ratio | Max Drawdown |
+|---|---:|---:|---:|---:|---:|
+| Fixed-beta rolling z-score | 7.25% | 0.65% | 1.98% | 0.3388 | -3.47% |
+| Dynamic-beta rolling z-score | 7.38% | 0.73% | 1.92% | 0.3910 | -3.01% |
+
+The dynamic-beta rolling z-score strategy slightly outperforms the static-beta version. It has a higher total return, higher Sharpe ratio, lower annualized volatility, and smaller maximum drawdown. However, the improvement is modest, suggesting that allowing the hedge ratio to vary through time helps, but does not dramatically change the strategy's performance.
 
 ## Key Findings
 
