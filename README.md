@@ -105,7 +105,7 @@ Loads ETF price data, computes daily returns, and ranks ETF pairs by return corr
 
 ### 02 Single Pair Strategy
 
-Builds the pairs-trading strategy for one ETF pair. This notebook introduces the hedge ratio, spread, z-score, position rules, strategy returns, trade log, and performance metrics.
+Builds the pairs-trading strategy for one ETF pair. This notebook introduces the hedge ratio, spread, z-score, position rules, strategy returns, trade log, and performance metrics. We go from full sample statistics to rolling z-score with a fixed hedge ratio to rolling z-score with a dynamic hedge ratio.
 
 ### 03 Sensitivity Analysis
 
@@ -141,12 +141,6 @@ Evaluates the strategy using expanding-window walk-forward validation.
 Each fold selects pairs using only past data, then evaluates the selected pairs over the next calendar year.
 
 The walk-forward results show positive average Sharpe in six out of seven test years, with 2020 as the main failure case. This suggests that the strategy has some out-of-sample structure, but the edge is modest and regime-dependent.
-
-## Results
-
-### Fixed Train/Test Performance
-
-To Be Added
 
 ## Key Findings
 
