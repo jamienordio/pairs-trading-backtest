@@ -180,7 +180,9 @@ Period to trade selected pairs and to keep updating beta and z-score using rolli
 | Y=XLI/X=XLF |            0.8855 |              3.05% |            4.73% |       0.1526 |     0.4373 |        0.2847 |           20 |         11 |
 | Y=SPY/X=XLI |            0.8996 |              8.25% |           -3.29% |       0.3853 |    -0.3915 |       -0.7768 |           26 |          6 |
 
-![sharpe ratio oss top 5](figures/train_versus_oos_sharpe_top5.jpg)
+![sharpe ratio oss top 5](figures/train_vs_oos_sharpe_by_pair.png)
+
+![oos cumulative returns](figures/oos_cumulative_returns_selected_pairs.png)
 
 ## Key Findings
 
