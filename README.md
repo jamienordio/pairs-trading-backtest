@@ -142,6 +142,14 @@ Each fold selects pairs using only past data, then evaluates the selected pairs 
 
 The walk-forward results show positive average Sharpe in six out of seven test years, with 2020 as the main failure case. This suggests that the strategy has some out-of-sample structure, but the edge is modest and regime-dependent.
 
+## Results
+
+### Dynamic vs. Static Hedge Ratio $\beta$
+
+I developed the strategy first using the full data set, then progressively eliminated look-ahead bias by implementing rolling statistics and calculations. Below is a comparison of the strategy with a fixed hedge ratio $\beta$ versus with a dynamic hedge ratio $\beta_t$.
+
+![static versus dynamic hedge ratio](figures/fixed_vs_dynamic_beta_rollingzscore_XLK_QQQ.jpg)
+
 ## Key Findings
 
 The project produced several important findings.
