@@ -154,8 +154,8 @@ I developed the strategy first using the full data set, then progressively elimi
 
 | Strategy | Total Return | Annualized Return | Annualized Volatility | Sharpe Ratio | Max Drawdown |
 |---|---:|---:|---:|---:|---:|
-| Fixed-beta rolling z-score | 7.25% | 0.65% | 1.98% | 0.3388 | -3.47% |
-| Dynamic-beta rolling z-score | 7.38% | 0.73% | 1.92% | 0.3910 | -3.01% |
+| Static-beta $\beta$ rolling z-score | 7.25% | 0.65% | 1.98% | 0.3388 | -3.47% |
+| Dynamic-beta $\beta_t$ rolling z-score | 7.38% | 0.73% | 1.92% | 0.3910 | -3.01% |
 
 The dynamic-beta rolling z-score strategy slightly outperforms the static-beta version. It has a higher total return, higher Sharpe ratio, lower annualized volatility, and smaller maximum drawdown. However, the improvement is modest, suggesting that allowing the hedge ratio to vary through time helps, but does not dramatically change the strategy's performance.
 
